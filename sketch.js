@@ -6,10 +6,12 @@ const Constraint = Matter.Constraint;
 const Body = Matter.Body;
 const Composites = Matter.Composites;
 const Composite = Matter.Composite;
-
+var rope;
 let engine;
 let world;
 var ground;
+var fruit;
+var fruit_con;
 function setup() 
 {
   createCanvas(500,700);
@@ -20,13 +22,24 @@ function setup()
   ellipseMode(RADIUS);
   textSize(50)
   ground=new Ground(200,690,600,20)
+  rope=new Rope(6,{x:245,y:30})
+
+  fruit=Bodies.circle(200,200,10)
+  World.add(world,fruit);
+  Matter.Composite.add( rope.body,fruit);
+
+  fruit_con=new Link(rope,fruit);
+
 }
 
 function draw() 
 {
   background(51);
-  Engine.update(engine);
   ground.show();
+  rope.show();
+  ellipse(fruit.position.x,fruit.position.y,10,10);
+  Engine.update(engine);
+ 
    
 }
 
