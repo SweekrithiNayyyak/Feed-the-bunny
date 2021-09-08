@@ -28,7 +28,9 @@ function preload(){
 
  blink.playing=true;
  eat.playing=true;
+ sad.playing=true;
  eat.looping=false;
+ sad.looping=false;
 
 
 
@@ -51,11 +53,13 @@ function setup()
   Matter.Composite.add( rope.body,fruit);
   blink.frameDelay=20;
   eat.frameDealy=20;
-  bunny=createSprite(250,650);
+  sad.frameDelay=20;
+  bunny=createSprite(50,650);
  
   bunny.scale=0.2;
   bunny.addAnimation('blinking',blink);
   bunny.addAnimation('eating',eat);
+  bunny.addAnimation('crying',sad);
   bunny.changeAnimation('blinking');
 
   fruit_con=new Link(rope,fruit);
@@ -73,7 +77,15 @@ function draw()
 
   ground.show();
   rope.show();
-  image(food,fruit.position.x,fruit.position.y,60,60);
+  if(fruit!==null){
+    image(food,fruit.position.x,fruit.position.y,60,60);
+  }
+if(collide(fruit,bunny)==true){
+  bunny.changeAnimation('eating')
+}
+if(collide(fruit,ground.body)==true){
+  bunny.changeAnimation('crying')
+}
   Engine.update(engine);
   drawSprites();
  
@@ -85,6 +97,34 @@ function drop(){
   fruit_con=null;
  // bunny.changeAnimation('eating')
 }
+
+function collide(body,sprite){
+  if(body!==null){
+    var d=dist(body.position.x,body.position.y,sprite.x,sprite.y);
+    if(d<80){
+      World.remove(world,fruit);
+      fruit=null;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+}
+//function to detected coliision between two bodies
+/*function bCollide(body1,body2){
+  if(body1!==null && body2!==null){
+    var d=dist(body1.position.x,body1.position.y,body2.position.x,body2.position.y);
+    if(d<80){
+      World.remove(world,fruit);
+      fruit=null;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+}*/
 
 
 
