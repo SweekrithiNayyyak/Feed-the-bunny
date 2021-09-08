@@ -12,6 +12,15 @@ let world;
 var ground;
 var fruit;
 var fruit_con;
+var bgImg, food, rabbitImg;
+
+
+function preload(){
+  bgImg=loadImage("background.png");
+  food=loadImage("melon.png");
+  rabbitImg=loadImage("Rabbit-01.png");
+
+}
 function setup() 
 {
   createCanvas(500,700);
@@ -21,6 +30,7 @@ function setup()
   rectMode(CENTER);
   ellipseMode(RADIUS);
   textSize(50)
+  
   ground=new Ground(200,690,600,20)
   rope=new Rope(6,{x:245,y:30})
 
@@ -29,15 +39,17 @@ function setup()
   Matter.Composite.add( rope.body,fruit);
 
   fruit_con=new Link(rope,fruit);
-
+ 
 }
 
 function draw() 
-{
+{ imageMode(CENTER);
   background(51);
+  image(bgImg,displayWidth/2,displayHeight/2,displayWidth,displayHeight);
+
   ground.show();
   rope.show();
-  ellipse(fruit.position.x,fruit.position.y,10,10);
+  image(food,fruit.position.x,fruit.position.y,60,60);
   Engine.update(engine);
  
    
